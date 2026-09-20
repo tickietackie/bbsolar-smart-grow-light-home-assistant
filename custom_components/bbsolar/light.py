@@ -10,6 +10,7 @@ from homeassistant.components.light import (
     ATTR_RGB_COLOR,
     ColorMode,
     LightEntity,
+    LightEntityFeature,
 )
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
@@ -76,6 +77,7 @@ class BBSolarLight(CoordinatorEntity[BBSolarCoordinator], LightEntity):
     _attr_supported_color_modes = {ColorMode.RGB}
     _attr_color_mode = ColorMode.RGB
     _attr_effect_list = list(PRESET_NAMES)
+    _attr_supported_features = LightEntityFeature.EFFECT
 
     def __init__(
         self, coordinator: BBSolarCoordinator, description: dict[str, Any]
