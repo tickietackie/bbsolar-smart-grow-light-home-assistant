@@ -1,5 +1,5 @@
 {
   "name": "BBSolar Smart Grow Light",
   "homeassistant": "2024.6.0",
-  "render_readme": false
+  "render_readme": true
 }

@@ -2,9 +2,35 @@
   "config": {
     "step": {
       "user": {
-        "title": "BBSolar Smart Grow Light"
+        "title": "BBSolar-Lampe hinzufügen",
+        "menu_options": {
+          "cloud": "BBSolar-Cloud-Konto",
+          "meross_lan": "Vorhandenen Meross-LAN-Eintrag verwenden",
+          "manual": "Host und Geräteschlüssel manuell eingeben"
+        }
       },
-      "confirm": {
+      "cloud": {
+        "title": "BBSolar-Cloud-Konto",
+        "description": "Mit dem Konto der BBSolar-App anmelden, um die lokalen Geräteschlüssel abzurufen.",
+        "data": {
+          "email": "E-Mail",
+          "password": "Passwort"
+        }
+      },
+      "select_device": {
+        "title": "Gerät auswählen",
+        "data": {
+          "device": "Gerät"
+        }
+      },
+      "host": {
+        "title": "Geräteadresse",
+        "description": "IP-Adresse oder Hostname von {name} im lokalen Netzwerk.",
+        "data": {
+          "host": "Host"
+        }
+      },
+      "meross_lan": {
         "title": "BBSolar-Lampe hinzufügen",
         "description": "Es wurde eine BBSolar-Lampe gefunden, die von der Meross-LAN-Integration unter {host} verwaltet wird. Jetzt hinzufügen?",
         "data": {
@@ -12,8 +38,8 @@
         }
       },
       "manual": {
-        "title": "BBSolar-Lampe hinzufügen",
-        "description": "Adresse und lokalen Schlüssel der BBSolar-Lampe eingeben.",
+        "title": "Geräteschlüssel",
+        "description": "Adresse und lokalen Geräteschlüssel eingeben. Der Schlüssel ist über das BBSolar-Cloud-Konto verfügbar (siehe Dokumentation).",
         "data": {
           "host": "Host",
           "key": "Geräteschlüssel"
@@ -21,11 +47,15 @@
       }
     },
     "error": {
-      "cannot_connect": "Verbindung zum Gerät fehlgeschlagen",
-      "invalid_key": "Das Gerät hat den Schlüssel abgelehnt"
+      "cannot_connect": "Verbindung zum Gerät oder zur Cloud fehlgeschlagen",
+      "invalid_auth": "E-Mail oder Passwort ist falsch",
+      "invalid_key": "Das Gerät hat den Schlüssel abgelehnt",
+      "not_supported": "Dieses Gerät unterstützt keine Helligkeitssteuerung",
+      "no_devices": "Keine Geräte im Konto gefunden"
     },
     "abort": {
-      "already_configured": "Dieses Gerät ist bereits konfiguriert"
+      "already_configured": "Dieses Gerät ist bereits konfiguriert",
+      "cannot_connect": "Das Gerät konnte nicht identifiziert werden"
     }
   }
 }

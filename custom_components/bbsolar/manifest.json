@@ -3,9 +3,16 @@
   "name": "BBSolar Smart Grow Light",
   "codeowners": ["@tickietackie"],
   "config_flow": true,
+  "dhcp": [
+    {
+      "hostname": "bbsolar*",
+      "macaddress": "C4E7AE*"
+    }
+  ],
   "documentation": "https://github.com/tickietackie/bbsolar-smart-grow-light-home-assistant",
   "issue_tracker": "https://github.com/tickietackie/bbsolar-smart-grow-light-home-assistant/issues",
   "iot_class": "local_polling",
+  "loggers": ["custom_components.bbsolar"],
   "requirements": [],
-  "version": "0.4.0"
+  "version": "1.0.0"
 }

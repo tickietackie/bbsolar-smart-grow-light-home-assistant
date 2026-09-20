@@ -2,18 +2,44 @@
   "config": {
     "step": {
       "user": {
-        "title": "BBSolar Smart Grow Light"
-      },
-      "confirm": {
         "title": "Add BBSolar light",
-        "description": "A BBSolar light controlled by the Meross LAN integration was found at {host}. Add it to this integration?",
+        "menu_options": {
+          "cloud": "BBSolar cloud account",
+          "meross_lan": "Use an existing Meross LAN entry",
+          "manual": "Enter host and device key manually"
+        }
+      },
+      "cloud": {
+        "title": "BBSolar cloud account",
+        "description": "Sign in with the account of the BBSolar app to look up the local device keys.",
+        "data": {
+          "email": "E-mail",
+          "password": "Password"
+        }
+      },
+      "select_device": {
+        "title": "Select device",
+        "data": {
+          "device": "Device"
+        }
+      },
+      "host": {
+        "title": "Device address",
+        "description": "IP address or hostname of {name} in your local network.",
+        "data": {
+          "host": "Host"
+        }
+      },
+      "meross_lan": {
+        "title": "Add BBSolar light",
+        "description": "A BBSolar light managed by the Meross LAN integration was found at {host}. Add it to this integration?",
         "data": {
           "device": "Device"
         }
       },
       "manual": {
-        "title": "Add BBSolar light",
-        "description": "Enter the address and local key of the BBSolar light.",
+        "title": "Device key",
+        "description": "Enter the address and the local device key. The key is available from the BBSolar cloud account (see the integration documentation).",
         "data": {
           "host": "Host",
           "key": "Device key"
@@ -21,11 +47,15 @@
       }
     },
     "error": {
-      "cannot_connect": "Failed to connect to the device",
-      "invalid_key": "The device rejected the key"
+      "cannot_connect": "Failed to connect to the device or the cloud",
+      "invalid_auth": "Invalid e-mail or password",
+      "invalid_key": "The device rejected the key",
+      "not_supported": "This device does not support luminance control",
+      "no_devices": "No devices found on this account"
     },
     "abort": {
-      "already_configured": "This device is already configured"
+      "already_configured": "This device is already configured",
+      "cannot_connect": "The device could not be identified"
     }
   }
 }
