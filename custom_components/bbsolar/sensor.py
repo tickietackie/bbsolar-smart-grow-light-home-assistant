@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 from homeassistant.components.sensor import (
     SensorEntity,
     SensorStateClass,
@@ -22,7 +24,7 @@ AUX_LABEL = "Aux"
 STRIP_NAMES = {1: "Light A", 2: "Light B"}
 
 
-def _sensor_description(strip: dict[str, int], offset: int) -> dict[str, str]:
+def _sensor_description(strip: dict[str, int], offset: int) -> dict[str, Any]:
     color = CHANNEL_COLORS.get(offset)
     if color:
         label = CHANNEL_LABELS[color]
@@ -64,7 +66,7 @@ class BBSolarChannelSensor(CoordinatorEntity[BBSolarCoordinator], SensorEntity):
     _attr_icon = "mdi:led-on"
 
     def __init__(
-        self, coordinator: BBSolarCoordinator, description: dict[str, str]
+        self, coordinator: BBSolarCoordinator, description: dict[str, Any]
     ) -> None:
         super().__init__(coordinator)
         self._channel = description["channel"]

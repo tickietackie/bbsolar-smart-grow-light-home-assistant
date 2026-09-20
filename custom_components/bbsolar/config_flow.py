@@ -119,13 +119,13 @@ class BBSolarConfigFlow(ConfigFlow, domain=DOMAIN):
         mac = format_mac(discovery_info.macaddress).replace(":", "")
         self._discovery_host = discovery_info.ip
         self._discovery_mac = mac
+        await self.async_set_unique_id(mac, raise_on_progress=False)
 
         for entry in self.hass.config_entries.async_entries(DOMAIN):
-            if not entry.unique_id.lower().endswith(mac):
+            if not (entry.unique_id or "").lower().endswith(mac):
                 continue
             if entry.data.get(CONF_HOST) == discovery_info.ip:
                 return self.async_abort(reason="already_configured")
-            errors: dict[str, str] = {}
             try:
                 device = await self._async_probe(
                     discovery_info.ip, entry.data[CONF_KEY]
@@ -182,12 +182,18 @@ class BBSolarConfigFlow(ConfigFlow, domain=DOMAIN):
         self, user_input: dict[str, Any] | None = None
     ) -> Any:
         if user_input is not None:
-            self._selected = next(
-                device
-                for device in self._devices
-                if device["uuid"] == user_input["device"]
+            selected = next(
+                (
+                    device
+                    for device in self._devices
+                    if device["uuid"] == user_input.get("device")
+                ),
+                None,
             )
-            return await self.async_step_host()
+            if selected is not None:
+                self._selected = selected
+                return await self.async_step_host()
+            return self.async_abort(reason="cannot_connect")
         return self.async_show_form(
             step_id="select_device",
             data_schema=vol.Schema(
