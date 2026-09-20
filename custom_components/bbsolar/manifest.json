@@ -10,8 +10,8 @@
     }
   ],
   "documentation": "https://github.com/tickietackie/bbsolar-smart-grow-light-home-assistant",
-  "issue_tracker": "https://github.com/tickietackie/bbsolar-smart-grow-light-home-assistant/issues",
   "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/tickietackie/bbsolar-smart-grow-light-home-assistant/issues",
   "loggers": ["custom_components.bbsolar"],
   "requirements": [],
   "version": "1.0.0"
