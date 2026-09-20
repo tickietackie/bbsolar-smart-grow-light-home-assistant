@@ -1,0 +1,31 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "BBSolar Smart Grow Light"
+      },
+      "confirm": {
+        "title": "BBSolar-Lampe hinzufügen",
+        "description": "Es wurde eine BBSolar-Lampe gefunden, die von der Meross-LAN-Integration unter {host} verwaltet wird. Jetzt hinzufügen?",
+        "data": {
+          "device": "Gerät"
+        }
+      },
+      "manual": {
+        "title": "BBSolar-Lampe hinzufügen",
+        "description": "Adresse und lokalen Schlüssel der BBSolar-Lampe eingeben.",
+        "data": {
+          "host": "Host",
+          "key": "Geräteschlüssel"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Verbindung zum Gerät fehlgeschlagen",
+      "invalid_key": "Das Gerät hat den Schlüssel abgelehnt"
+    },
+    "abort": {
+      "already_configured": "Dieses Gerät ist bereits konfiguriert"
+    }
+  }
+}

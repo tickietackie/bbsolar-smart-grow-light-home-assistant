@@ -1,0 +1,31 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "BBSolar Smart Grow Light"
+      },
+      "confirm": {
+        "title": "Add BBSolar light",
+        "description": "A BBSolar light controlled by the Meross LAN integration was found at {host}. Add it to this integration?",
+        "data": {
+          "device": "Device"
+        }
+      },
+      "manual": {
+        "title": "Add BBSolar light",
+        "description": "Enter the address and local key of the BBSolar light.",
+        "data": {
+          "host": "Host",
+          "key": "Device key"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to the device",
+      "invalid_key": "The device rejected the key"
+    },
+    "abort": {
+      "already_configured": "This device is already configured"
+    }
+  }
+}
