@@ -14,7 +14,7 @@ from .device import BBSolarDevice, BBSolarError
 
 _LOGGER = logging.getLogger(__name__)
 
-UPDATE_INTERVAL = timedelta(seconds=15)
+UPDATE_INTERVAL = timedelta(seconds=10)
 
 
 class BBSolarCoordinator(DataUpdateCoordinator[dict[str, Any]]):
