@@ -25,19 +25,19 @@ LIGHTS = (
         "key": "main",
         "name": "Main",
         "strips": (
-            {"toggle": 1, "white": 3, "red": 4, "blue": 5},
-            {"toggle": 2, "white": 7, "red": 8, "blue": 9},
+            {"toggle": 1, "white": 3, "blue": 4, "red": 5},
+            {"toggle": 2, "white": 7, "blue": 8, "red": 9},
         ),
     },
     {
         "key": "light_a",
         "name": "Light A",
-        "strips": ({"toggle": 1, "white": 3, "red": 4, "blue": 5},),
+        "strips": ({"toggle": 1, "white": 3, "blue": 4, "red": 5},),
     },
     {
         "key": "light_b",
         "name": "Light B",
-        "strips": ({"toggle": 2, "white": 7, "red": 8, "blue": 9},),
+        "strips": ({"toggle": 2, "white": 7, "blue": 8, "red": 9},),
     },
 )
 
