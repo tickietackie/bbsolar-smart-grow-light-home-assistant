@@ -66,7 +66,8 @@ class BBSolarLight(CoordinatorEntity[BBSolarCoordinator], LightEntity):
     """A light strip (or the main channel controlling both strips)."""
 
     _attr_has_entity_name = True
-    _attr_supported_color_modes = {ColorMode.BRIGHTNESS, ColorMode.RGB}
+    _attr_supported_color_modes = {ColorMode.RGB}
+    _attr_color_mode = ColorMode.RGB
 
     def __init__(
         self, coordinator: BBSolarCoordinator, description: dict[str, Any]
@@ -91,16 +92,6 @@ class BBSolarLight(CoordinatorEntity[BBSolarCoordinator], LightEntity):
     @property
     def _luminance(self) -> dict[int, int]:
         return self.coordinator.data.get("luminance") or {}
-
-    @property
-    def color_mode(self) -> ColorMode:
-        if any(
-            self._luminance.get(strip["red"], 0)
-            or self._luminance.get(strip["blue"], 0)
-            for strip in self._strips
-        ):
-            return ColorMode.RGB
-        return ColorMode.BRIGHTNESS
 
     @property
     def is_on(self) -> bool:
