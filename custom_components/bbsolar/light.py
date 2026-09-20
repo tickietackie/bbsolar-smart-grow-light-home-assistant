@@ -6,6 +6,7 @@ from typing import Any
 
 from homeassistant.components.light import (
     ATTR_BRIGHTNESS,
+    ATTR_EFFECT,
     ATTR_RGB_COLOR,
     ColorMode,
     LightEntity,
@@ -18,6 +19,12 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import DOMAIN, LIGHTS
 from .coordinator import BBSolarCoordinator
+from .presets import (
+    PRESET_BY_NAME,
+    PRESET_NAMES,
+    match_preset,
+    preset_channels,
+)
 
 DEVICE_LEVEL_MAX = 100
 
@@ -68,6 +75,7 @@ class BBSolarLight(CoordinatorEntity[BBSolarCoordinator], LightEntity):
     _attr_has_entity_name = True
     _attr_supported_color_modes = {ColorMode.RGB}
     _attr_color_mode = ColorMode.RGB
+    _attr_effect_list = list(PRESET_NAMES)
 
     def __init__(
         self, coordinator: BBSolarCoordinator, description: dict[str, Any]
@@ -93,6 +101,19 @@ class BBSolarLight(CoordinatorEntity[BBSolarCoordinator], LightEntity):
     def _luminance(self) -> dict[int, int]:
         return self.coordinator.data.get("luminance") or {}
 
+    def _strip_channels(self, strip: dict[str, int]) -> tuple[int, int, int]:
+        return (
+            self._luminance.get(strip["white"], 0),
+            self._luminance.get(strip["red"], 0),
+            self._luminance.get(strip["blue"], 0),
+        )
+
+    @property
+    def effect(self) -> str | None:
+        return match_preset(
+            [self._strip_channels(strip) for strip in self._strips]
+        )
+
     @property
     def is_on(self) -> bool:
         return any(self._toggles.get(strip["toggle"], False) for strip in self._strips)
@@ -113,11 +134,7 @@ class BBSolarLight(CoordinatorEntity[BBSolarCoordinator], LightEntity):
         if not self.is_on:
             return None
         colors = [
-            _rgb_from_channels(
-                self._luminance.get(strip["white"], 0),
-                self._luminance.get(strip["red"], 0),
-                self._luminance.get(strip["blue"], 0),
-            )
+            _rgb_from_channels(*self._strip_channels(strip))
             for strip in self._strips
         ]
         return tuple(
@@ -128,8 +145,15 @@ class BBSolarLight(CoordinatorEntity[BBSolarCoordinator], LightEntity):
     async def async_turn_on(self, **kwargs: Any) -> None:
         brightness = kwargs.get(ATTR_BRIGHTNESS)
         rgb = kwargs.get(ATTR_RGB_COLOR)
+        preset = PRESET_BY_NAME.get(kwargs.get(ATTR_EFFECT) or "")
 
-        if brightness is not None:
+        if preset is not None:
+            level = (
+                _to_device_level(brightness)
+                if brightness is not None
+                else preset["level"]
+            )
+        elif brightness is not None:
             level = _to_device_level(brightness)
         else:
             current = self.brightness
@@ -137,21 +161,17 @@ class BBSolarLight(CoordinatorEntity[BBSolarCoordinator], LightEntity):
 
         values: dict[int, int] = {}
         for strip in self._strips:
-            white = self._luminance.get(strip["white"], 0)
-            red = self._luminance.get(strip["red"], 0)
-            blue = self._luminance.get(strip["blue"], 0)
-            if rgb is not None:
+            if preset is not None:
+                channels = preset_channels(preset, level)
+            elif rgb is not None:
                 channels = _channels_from_rgb(rgb, level)
             else:
+                white, red, blue = self._strip_channels(strip)
                 factor = level / white if white > 0 else 1
                 channels = {
                     "white": level,
-                    "red": max(
-                        0, min(DEVICE_LEVEL_MAX, round(red * factor))
-                    ),
-                    "blue": max(
-                        0, min(DEVICE_LEVEL_MAX, round(blue * factor))
-                    ),
+                    "red": max(0, min(DEVICE_LEVEL_MAX, round(red * factor))),
+                    "blue": max(0, min(DEVICE_LEVEL_MAX, round(blue * factor))),
                 }
             values[strip["white"]] = channels["white"]
             values[strip["red"]] = channels["red"]

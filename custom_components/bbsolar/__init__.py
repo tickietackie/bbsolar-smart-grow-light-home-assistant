@@ -11,7 +11,7 @@ from .const import CONF_HOST, CONF_KEY, CONF_MODEL, CONF_SW_VERSION, CONF_UUID
 from .coordinator import BBSolarCoordinator
 from .device import BBSolarDevice
 
-PLATFORMS = [Platform.LIGHT]
+PLATFORMS = [Platform.LIGHT, Platform.SELECT]
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
